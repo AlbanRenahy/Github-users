@@ -1,9 +1,12 @@
 import React from 'react';
+import { Dashboard, Login, Error } from './pages';
 
 function App() {
   return (
     <div>
-      <h1>Hello World</h1>
+      <Dashboard></Dashboard>
+      <Login />
+      <Error />
     </div>
   );
 }
