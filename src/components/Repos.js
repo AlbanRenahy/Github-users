@@ -4,10 +4,33 @@ import { GithubContext } from '../context/context';
 import { Pie, Column, Bar, Doughnut } from './Charts';
 const Repos = () => {
   const { repos } = React.useContext(GithubContext);
+  console.log(repos);
+
+  const languages = repos.reduce((total, item) => {
+    const { language, stargazers_count } = item;
+    if (!language) return total;
+    if (!total[language]) {
+      total[language] = { label: language, value: 1, stars: stargazers_count };
+    } else {
+      total[language] = {
+        ...total[language],
+        value: total[language].value + 1,
+        stars: total[language].stars + stargazers_count,
+      };
+    }
+    return total;
+  }, {});
+
+  const mostUsed = Object.values(languages)
+    .sort((a, b) => {
+      return b.value - a.value;
+    })
+    .slice(0, 5);
 
   return (
     <section className='section'>
       <Wrapper className='section-center'>
+        <Pie data={mostUsed} />
       </Wrapper>
     </section>
   );
